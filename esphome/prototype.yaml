@@ -1,0 +1,8 @@
+substitutions:
+  device_name: "prototype"
+  friendly_name: "Prototype"
+  main_icon: "alpha-p-box-outline"
+  dallas_address: "0x5d000003bddc4828"
+  
+  <<: !include base/the-cube.yaml
+  <<: !include base/deep-sleep.yaml

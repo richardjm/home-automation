@@ -1,0 +1,8 @@
+substitutions:
+  device_name: sofa
+  friendly_name: Sofa
+  main_icon: "sofa"
+  default_state: "RESTORE_DEFAULT_ON"
+  activity_threshold: "5"
+  
+<<: !include base/gosund-up111.yaml

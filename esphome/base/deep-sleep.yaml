@@ -1,0 +1,22 @@
+deep_sleep:
+  id: deep_sleep_control
+  sleep_duration: 3min
+  run_duration: 1min
+
+interval:
+  - interval: 30s
+    then:
+      - if:
+          condition:
+            binary_sensor.is_on: esphome_allow_deep_sleep
+          then:
+            - logger.log:
+                format: 'Entering deep sleep'
+                tag: 'deep-sleep'
+            - deep_sleep.enter: deep_sleep_control
+          else:
+            - logger.log:
+                format: 'Preventing deep sleep'
+                tag: 'deep-sleep'
+            - deep_sleep.prevent: deep_sleep_control
+
