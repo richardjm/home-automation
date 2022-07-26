@@ -31,4 +31,5 @@ sensor:
   - platform: dallas
     address: 0x62000003be116228
     name: "Workshop Temperature"
+    icon: "mdi:office-building"
   
