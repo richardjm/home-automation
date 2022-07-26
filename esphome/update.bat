@@ -1,0 +1,1 @@
+robocopy \\homeassistant\config\esphome . *.yaml /s /lev:2 /xl /purge

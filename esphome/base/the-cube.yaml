@@ -34,6 +34,7 @@ sensor:
   - platform: dallas
     name: "${friendly_name} Temperature"
     address: "${dallas_address}"
+    icon: "mdi:${main_icon}"
 
 binary_sensor:
   - platform: homeassistant
