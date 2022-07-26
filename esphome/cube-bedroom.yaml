@@ -5,5 +5,4 @@ substitutions:
   dallas_address: "0x763c17f648016328"
   
 <<: !include base/the-cube.yaml
-<<: !include base/deep-sleep.yaml
 
