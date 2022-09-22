@@ -1,0 +1,148 @@
+# Sections used to control my two printers
+
+rest:
+  - resource: http://192.168.0.45/printer/objects/query?extruder=temperature,target&heater_bed=temperature,target&temperature_host%20pi&temperature_sensor%20enclosure_temp=temperature&display_status
+    scan_interval: 5
+    timeout: 1
+    sensor:
+      - name: Voron2 extruder temperature
+        value_template: "{{ value_json.result.status.extruder.temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 extruder target
+        value_template: "{{ value_json.result.status.extruder.target }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 bed temperature
+        value_template: "{{ value_json.result.status.heater_bed.temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 bed target
+        value_template: "{{ value_json.result.status.heater_bed.target }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 chamber temperature
+        value_template: "{{ value_json.result.status['temperature_sensor enclosure_temp'].temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 pi temperature
+        value_template: "{{ value_json.result.status['temperature_host pi'].temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron2 progress
+        value_template: "{{ (value_json.result.status.display_status.progress * 100) | round() }}"
+        unit_of_measurement: "%"
+      - name: Voron2 message
+        value_template: >-
+          {% if value_json.result.status.display_status.message is defined and value_json.result.status.display_status.message and value_json.result.status.display_status.message != "" %}
+            {{ value_json.result.status.display_status.message }}
+          {% else %}
+            {{ 'Empty' }}
+          {% endif %}
+  - resource: http://192.168.0.45/printer/info
+    scan_interval: 5
+    timeout: 1
+    sensor:
+      - name: Voron2 state message
+        value_template: "{{ value_json.result.state_message }}"
+  - resource: http://192.168.0.46/printer/objects/query?extruder=temperature,target&heater_bed=temperature,target&temperature_host%20pi&temperature_sensor%20enclosure_temp=temperature&display_status
+    scan_interval: 5
+    timeout: 1
+    sensor:
+      - name: Voron0 extruder temperature
+        value_template: "{{ value_json.result.status.extruder.temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 extruder target
+        value_template: "{{ value_json.result.status.extruder.target }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 bed temperature
+        value_template: "{{ value_json.result.status.heater_bed.temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 bed target
+        value_template: "{{ value_json.result.status.heater_bed.target }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 chamber temperature
+        value_template: "{{ value_json.result.status['temperature_sensor enclosure_temp'].temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 pi temperature
+        value_template: "{{ value_json.result.status['temperature_host pi'].temperature }}"
+        unit_of_measurement: "°C"
+        state_class: measurement
+        device_class: temperature
+      - name: Voron0 progress
+        value_template: "{{ (value_json.result.status.display_status.progress * 100) | round() }}"
+        unit_of_measurement: "%"
+      - name: Voron0 message
+        value_template: >-
+          {% if value_json.result.status.display_status.message is defined and value_json.result.status.display_status.message and value_json.result.status.display_status.message != "" %}
+            {{ value_json.result.status.display_status.message }}
+          {% else %}
+            {{ 'Empty' }}
+          {% endif %}
+  - resource: http://192.168.0.46/printer/info
+    scan_interval: 5
+    timeout: 1
+    sensor:
+      - name: Voron0 state message
+        value_template: "{{ value_json.result.state_message }}"
+
+homeassistant:
+  customize:
+    sensor.voron2_bed_target:
+      icon: mdi:radiator
+    sensor.voron2_bed_temperature:
+      icon: mdi:radiator-disabled
+    #    sensor.voron2_chamber_temperature:
+    #      icon: mdi:
+    sensor.voron2_extruder_target:
+      icon: mdi:printer-3d-nozzle-heat
+    sensor.voron2_extruder_temperature:
+      icon: mdi:printer-3d-nozzle-alert
+    sensor.voron2_pi_temperature:
+      icon: mdi:raspberry-pi
+    sensor.voron0_bed_target:
+      icon: mdi:radiator
+    sensor.voron0_bed_temperature:
+      icon: mdi:radiator-disabled
+    #    sensor.voron2_chamber_temperature:
+    #      icon: mdi:
+    sensor.voron0_extruder_target:
+      icon: mdi:printer-3d-nozzle-heat
+    sensor.voron0_extruder_temperature:
+      icon: mdi:printer-3d-nozzle-alert
+    sensor.voron0_pi_temperature:
+      icon: mdi:raspberry-pi
+
+rest_command:
+  # Voron2 commands
+  voron2_gcode:
+    url: http://192.168.0.45/printer/gcode/script?script={{gcode}}
+    method: post
+  voron2_shutdown:
+    url: http://192.168.0.45/machine/shutdown
+    method: post
+    timeout: 30
+  # Voron0 commands
+  voron0_gcode:
+    url: http://192.168.0.46/printer/gcode/script?script={{gcode}}
+    method: post
+  voron0_shutdown:
+    url: http://192.168.0.46/machine/shutdown
+    method: post
+    timeout: 30

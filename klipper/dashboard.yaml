@@ -1,0 +1,465 @@
+  - theme: Backend-selected
+    icon: mdi:printer-3d-nozzle
+    title: Printing
+    badges: []
+    cards:
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'off'
+        card:
+          show_name: false
+          show_icon: true
+          type: button
+          tap_action:
+            action: toggle
+          entity: switch.printer
+          icon_height: 35px
+          show_state: false
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://github.com/richardjm
+                icon: mdi:github
+                icon_height: 35px
+                name: GitHub
+                show_state: false
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://www.klipper3d.org/G-Codes.html
+                icon: mdi:book-open-blank-variant
+                icon_height: 35px
+                name: Klipper
+                show_state: false
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest.reload
+                  data: {}
+                  target: {}
+                entity: input_button.reload_restful
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://moonraker.readthedocs.io/en/latest/
+                icon: mdi:webhook
+                icon_height: 35px
+                name: Moonraker
+                show_state: false
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: input_boolean.voron_safe_shutdown
+                show_state: false
+                icon_height: 25px
+          - type: entity
+            entity: sensor.voron2_message
+          - type: entity
+            entity: sensor.voron2_state_message
+          - type: glance
+            entities:
+              - entity: sensor.voron2_extruder_temperature
+                name: Extruder
+              - entity: sensor.voron2_extruder_target
+                name: Target
+              - entity: sensor.voron2_bed_temperature
+                name: Bed
+              - entity: sensor.voron2_bed_target
+                name: Target
+            show_name: true
+            state_color: true
+          - type: glance
+            entities:
+              - entity: sensor.voron2_chamber_temperature
+                name: Chamber
+              - entity: sensor.voron2_pi_temperature
+                name: Pi
+              - entity: sensor.workshop_temperature
+                name: Workshop
+              - entity: switch.printer
+                name: Vorons
+            show_name: true
+            state_color: true
+          - type: entity
+            entity: sensor.voron2_progress
+      - type: vertical-stack
+        cards:
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: url
+              url_path: http://voronpi/
+            entity: ''
+            name: Voron2
+            icon_height: 35px
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: G28
+                  target: {}
+                entity: ''
+                icon: mdi:home
+                icon_height: 35px
+              - show_name: true
+                show_icon: false
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: QUAD_GANTRY_LEVEL
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                name: QGL
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: RESETRGB
+                  target: {}
+                icon_height: 35px
+                icon: mdi:lightbulb
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: DIM_LIGHTS
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                icon: mdi:lightbulb-outline
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: PREPARE_PRINT
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                icon: mdi:fire
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron2_gcode
+                  service_data:
+                    gcode: COOLDOWN
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                icon: mdi:snowflake
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'on'
+        card:
+          type: history-graph
+          hours_to_show: 1
+          entities:
+            - entity: sensor.voron2_extruder_temperature
+              name: Extruder
+            - entity: sensor.voron2_bed_temperature
+              name: Bed
+            - entity: sensor.voron2_chamber_temperature
+              name: Chamber
+          refresh_interval: 5
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'on'
+        card:
+          show_state: false
+          show_name: true
+          camera_view: live
+          type: picture-entity
+          entity: camera.voron2
+          camera_image: camera.voron2
+          tap_action:
+            action: url
+            url_path: http://voronpi/
+          name: Voron v2.1906
+          image: http://voronpi/webcam/?action=stream
+      - type: entities
+        entities:
+          - entity: light.v2_1906_master
+          - entity: select.v2_1906_preset
+        title: Printer lights
+        show_header_toggle: false
+        state_color: true
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'on'
+        card:
+          type: gauge
+          entity: sensor.printer_current_energy
+          needle: true
+          min: 0
+          max: 600
+          severity:
+            green: 10
+            yellow: 100
+            red: 300
+          name: Printer
+      - chart_type: line
+        period: 5minute
+        days_to_show: 1
+        type: statistics-graph
+        entities:
+          - sensor.printer_current_energy
+        stat_types:
+          - mean
+  - theme: Backend-selected
+    icon: mdi:printer-3d-nozzle-outline
+    title: Printing
+    badges: []
+    cards:
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'off'
+        card:
+          show_name: false
+          show_icon: true
+          type: button
+          tap_action:
+            action: toggle
+          entity: switch.printer
+          icon_height: 35px
+          show_state: false
+      - type: vertical-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://github.com/richardjm
+                icon: mdi:github
+                icon_height: 35px
+                name: GitHub
+                show_state: false
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://www.klipper3d.org/G-Codes.html
+                icon: mdi:book-open-blank-variant
+                icon_height: 35px
+                name: Klipper
+                show_state: false
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest.reload
+                  data: {}
+                  target: {}
+                entity: input_button.reload_restful
+              - show_name: false
+                show_icon: true
+                type: button
+                tap_action:
+                  action: url
+                  url_path: https://moonraker.readthedocs.io/en/latest/
+                icon: mdi:webhook
+                icon_height: 35px
+                name: Moonraker
+                show_state: false
+          - type: entity
+            entity: sensor.voron0_message
+          - type: entity
+            entity: sensor.voron0_state_message
+          - type: glance
+            entities:
+              - entity: sensor.voron0_extruder_temperature
+                name: Extruder
+              - entity: sensor.voron0_extruder_target
+                name: Target
+              - entity: sensor.voron0_bed_temperature
+                name: Bed
+              - entity: sensor.voron0_bed_target
+                name: Target
+            show_name: true
+            state_color: true
+          - type: glance
+            entities:
+              - entity: sensor.voron0_chamber_temperature
+                name: Chamber
+              - entity: sensor.voron0_pi_temperature
+                name: Pi
+              - entity: sensor.workshop_temperature
+                name: Workshop
+              - entity: switch.printer
+                name: Vorons
+            show_name: true
+            state_color: true
+          - type: entity
+            entity: sensor.voron0_progress
+      - type: vertical-stack
+        cards:
+          - show_name: true
+            show_icon: true
+            type: button
+            tap_action:
+              action: url
+              url_path: http://voron0pi/
+            entity: ''
+            name: Voron0
+            icon_height: 35px
+          - type: horizontal-stack
+            cards:
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  service_data:
+                    gcode: G28
+                  target: {}
+                entity: ''
+                icon: mdi:home
+                icon_height: 35px
+              - show_name: true
+                show_icon: false
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  target: {}
+                  data:
+                    gcode: SCREWS_TILT_CALCULATE
+                entity: ''
+                icon_height: 35px
+                name: STC
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  service_data:
+                    gcode: RESETRGB
+                  target: {}
+                icon_height: 35px
+                icon: mdi:lightbulb
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  target: {}
+                  data:
+                    gcode: LIGHTS_OFF
+                entity: ''
+                icon_height: 35px
+                icon: mdi:lightbulb-off-outline
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  service_data:
+                    gcode: PREPARE_PRINT
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                icon: mdi:fire
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: call-service
+                  service: rest_command.voron0_gcode
+                  service_data:
+                    gcode: COOLDOWN
+                  target: {}
+                entity: ''
+                icon_height: 35px
+                icon: mdi:snowflake
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'on'
+        card:
+          type: history-graph
+          hours_to_show: 1
+          entities:
+            - entity: sensor.voron0_extruder_temperature
+              name: Extruder
+            - entity: sensor.voron0_bed_temperature
+              name: Bed
+            - entity: sensor.voron0_chamber_temperature
+              name: Chamber
+          refresh_interval: 5
+      - type: entities
+        entities:
+          - entity: light.v0_1069_master
+          - entity: select.v0_1069_preset
+        title: Printer lights
+        show_header_toggle: false
+        state_color: true
+      - type: conditional
+        conditions:
+          - entity: switch.printer
+            state: 'on'
+        card:
+          type: gauge
+          entity: sensor.printer_current_energy
+          needle: true
+          min: 0
+          max: 600
+          severity:
+            green: 10
+            yellow: 100
+            red: 300
+          name: Printer
+      - chart_type: line
+        period: 5minute
+        days_to_show: 1
+        type: statistics-graph
+        entities:
+          - sensor.printer_current_energy
+        stat_types:
+          - mean
+ 
