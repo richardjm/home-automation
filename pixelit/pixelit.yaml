@@ -1,0 +1,32 @@
+rest_command:
+  pixelit_message:
+    url: http://192.168.0.41/api/screen
+    method: post
+    payload: '{ "text": { "textString": "{{ message | default("Hello") }}", "bigFont": false, "scrollText": "auto", "centerText": false, "color": { "r": {{ red | default(255) }}, "g": {{ green | default(255) }}, "b": {{ blue | default(255) }}} } }'
+    content_type: "application/json; charset=utf-8"
+  pixelit_timer:
+    url: http://192.168.0.41/api/screen
+    method: post
+    #payload: '{"bitmapAnimation":{"data":[[0,52857,52857,52857,52857,52857,0,0,0,52857,65504,65504,65504,52857,0,0,0,52857,65504,65504,65504,52857,0,0,0,0,52857,65504,52857,0,0,0,0,0,0,52857,0,0,0,0,0,0,52857,0,52857,0,0,0,0,52857,0,0,0,52857,0,0,0,52857,52857,52857,52857,52857,0,0]]},"text":{"textString":"{{ message | default("00:00") }}","bigFont":false,"scrollText":false,"centerText":false,"position":{"x":10,"y":1},"color":{"r":{{ red | default(255) }},"g":{{ green | default(255) }},"b":{{ blue | default(255) }}}}}'
+    payload: '{"bitmap":{"data":[0,52857,52857,52857,52857,52857,0,0,0,52857,53247,53247,53247,52857,0,0,0,52857,53247,53247,53247,52857,0,0,0,0,52857,53247,52857,0,0,0,0,0,0,52857,0,0,0,0,0,0,52857,0,52857,0,0,0,0,52857,0,0,0,52857,0,0,0,52857,52857,52857,52857,52857,0,0],"size":{"width":8,"height":8}},"text":{"textString":"{{ message | default("00:00") }}","bigFont":false,"scrollText":false,"centerText":false,"position":{"x":8,"y":1},"color":{"r":{{ red | default(255) }},"g":{{ green | default(255) }},"b":{{ blue | default(255) }}}}}'
+    content_type: "application/json; charset=utf-8"
+  pixelit_3d_message:
+    url: http://192.168.0.41/api/screen
+    method: post
+    payload: '{"bitmapAnimation":{"data":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,0,0,0,7616,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,7616,7616,7616,823,823,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,0,0,0,823,0,823,0,0,7616,7616,7616,823,823,0,0],[0,0,0,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,7616,7616,823,0,0,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0],[0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,0,0,0,823,0,823,0,0,0,7616,7616,823,0,823,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0],[65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,0,0,0,0,7616,0,0,0,0,0,0,0,0,0,7616,823,0,823,0,0,0,7616,7616,823,0,823,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0],[0,0,0,0,65535,65535,65535,0,0,0,0,0,65535,65535,65535,0,0,0,0,0,0,65535,0,0,0,7616,7616,7616,823,823,0,0,0,0,0,7616,823,0,823,0,0,0,7616,7616,823,0,823,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7616,7616,7616,823,823,0,0,0,0,0,7616,823,0,823,0,0,0,7616,7616,823,0,823,0,0,0,0,7616,823,0,823,0,0,7616,7616,7616,823,823,0,0]],"animationDelay":200,"rubberbanding":false,"limitLoops":0}, "text": { "textString": "{{ message | default("Hello") }}", "bigFont": true, "scrollText": "auto", "centerText": false, "color": { "r": {{ red | default(255) }}, "g": {{ green | default(255) }}, "b": {{ blue | default(255) }}} } }'
+    content_type: "application/json; charset=utf-8"
+  pixelit_sleep:
+    url: http://192.168.0.41/api/screen
+    method: post
+    payload: '{ "sleepmode": {{sleep | default(true)}} }'
+    content_type: "application/json; charset=utf-8"
+  pixelit_brightness:
+    url: http://192.168.0.41/api/screen
+    method: post
+    payload: '{ "brightness": {{brightness | default(50)}} }'
+    content_type: "application/json; charset=utf-8"
+  pixelit_clock:
+    url: http://192.168.0.41/api/screen
+    method: post
+    payload: '{ "clock": { "show": true, "switchAktiv": {{ switch_active | default(true) }}, "withSeconds": {{ with_seconds | default(false) }}, "switchSec": {{ switch_duration | default(5) }}, "color": { "r": {{ red | default(255) }}, "g": {{ green | default(255) }}, "b": {{ blue | default(255) }}} } }'
+    content_type: "application/json; charset=utf-8"
